@@ -26,15 +26,15 @@
         document.addEventListener('DOMContentLoaded', ()=>{
             const select = document.getElementById('opsi_koneksi');
 
-            const YumnaList = {
+            const ipData = [
+            {
                 'Tenda Cina': '20.20.10.1',
                 'Armita_AP': '20.20.10.41',
                 'MTB_Dara': '20.20.10.44',
                 'Yumna_Client': '20.20.10.46',
                 'Yumna_Huawei': '20.20.10.20',
-            };
-
-            const AbielList = {
+            },
+            {
                 'Common/Tenda': '192.168.1.1',
                 'H.Malik': '192.168.1.15',
                 'Mang Bini': '192.168.1.11',
@@ -42,9 +42,8 @@
                 'Abiel': '192.168.1.10',
                 'Kamil': '192.168.1.17',
                 'Tenda': '192.168.1.1',
-            };
-
-            const MikrotikList = {
+            },
+            {
                 'Mikrobasa': '192.168.2.3',
                 'MikroKustar': '192.168.2.5',
                 'Venusa': '10.10.10.5',
@@ -58,18 +57,14 @@
                 'Ferdi': '10.10.10.24',
                 'Raihandy': '10.10.10.29',
                 'ferdi_client': '10.10.10.95',
-            };
-
-            const CustomList = {
+            } ,{
                 'Mikrokustar': '20.20.10.1',
                 'amitabasa.net': '20.20.10.3',
                 'Getrakmoyan': '20.20.10.4',
                 'tanda_client': '20.20.10.5',
                 'baim_client': '20.20.10.11',
                 'Tanda Meang': '20.20.10.18',
-            };
-
-            const ipData = [YumnaList, AbielList, MikrotikList, CustomList]
+            }]
             const nameData = ['Yumna(Biru)', 'Abiel(Abu-Abu)', 'Mikrotik(Solasiban)', 'HUB MIKROKUSTAR (AWAS STRUM)']
             for (let i = 0; i < ipData.length; i++) {
                 const option = document.createElement('option')
@@ -77,6 +72,11 @@
                 option.innerText = nameData[i];
                 select.appendChild(option)
             }
+
+            const ipDataSorted = [
+                sortObjectByValue(ipData[0]), sortObjectByValue(ipData[1]), 
+                sortObjectByValue(ipData[2]), sortObjectByValue(ipData[3])
+            ]
 
             function optionHandler (opsiValue){
                 if(opsiValue == 0){
@@ -165,17 +165,14 @@
                 }
             }
 
-            createList(YumnaList);
+            createList(ipData[0]);
             opsi.addEventListener('change', (e)=>{
                 let opsiValue = e.target.value;
                 optionHandler (opsiValue);
             })
 
             
-            ipDataSorted = [
-                sortObjectByValue(YumnaList), sortObjectByValue(AbielList), 
-                sortObjectByValue(MikrotikList), sortObjectByValue(CustomList)
-            ]
+            
 
             
         })
