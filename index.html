@@ -136,13 +136,16 @@
                     });
             }
 
+
             refreshButton.addEventListener('click', (e)=>{
                 e.preventDefault();
                 list.innerHTML='';
                 loader.classList.remove('d-none');
+                e.target.disabled = true;
                 setTimeout(()=>{
                     optionHandler(opsi.value);
                     loader.classList.add('d-none');
+                    e.target.disabled = false;
                 }, 1000)
             })
 
