@@ -72,6 +72,28 @@
                 'Tanda Meang': '20.20.10.18',
             };
 
+            function sortObjectByKey(obj) {
+                return Object.keys(obj)
+                    .sort()
+                    .reduce((sortedObj, key) => {
+                        sortedObj[key] = obj[key];
+                        return sortedObj;
+                    }, {});
+            }
+
+            function sortObjectByValue(obj) {
+                return Object.entries(obj)
+                    .sort((a, b) => {
+                        if (a[1] < b[1]) return -1;
+                        if (a[1] > b[1]) return 1;
+                        return 0;
+                    }) // Sort values (IP addresses) numerically
+                    .reduce((sortedObj, [key, value]) => {
+                        sortedObj[key] = value;
+                        return sortedObj;
+                    }, {});
+            }
+
             const opsi = document.getElementById('opsi_koneksi');
             const list = document.getElementById('list_koneksi');
             const refreshButton = document.getElementById('refreshButton');
@@ -140,15 +162,21 @@
                 optionHandler (opsiValue);
             })
 
+            const ipData = [YumnaList, AbielList, MikrotikList, CustomList]
+            ipDataSorted = [
+                sortObjectByValue(YumnaList), sortObjectByValue(AbielList), 
+                sortObjectByValue(MikrotikList), sortObjectByValue(CustomList)
+            ]
+
             function optionHandler (opsiValue){
                 if(opsiValue == 'Yumna'){
-                    createList(YumnaList);
+                    createList(ipDataSorted[0]);
                 } else if (opsiValue == 'Abiel') {
-                    createList(AbielList);
+                    createList(ipDataSorted[1]);
                 } else if (opsiValue == 'Mikrotik') {
-                    createList(MikrotikList);
+                    createList(ipDataSorted[2]);
                 } else if (opsiValue == 'Custom') {
-                    createList(CustomList);
+                    createList(ipDataSorted[3]);
                 }
             }
         })
