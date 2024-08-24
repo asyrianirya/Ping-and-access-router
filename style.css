@@ -1,0 +1,77 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  padding: 10px;
+}
+
+select {
+  padding: 10px;
+  border: 2px solid black;
+}
+
+#list_koneksi {
+  list-style-type: none;
+}
+
+#list_koneksi {
+  display: grid;
+}
+
+a {
+  background-color: rgb(255, 156, 156);
+  text-decoration: none;
+  color: inherit;
+  border: 1px solid black;
+  margin: 5px;
+  padding: 10px;
+}
+
+a:hover {
+  background-color: rgb(252, 122, 122);
+}
+
+.ping-success {
+  background-color: lightgreen;
+}
+
+.ping-success:hover {
+  background-color: rgb(61, 196, 61);
+  color: white;
+}
+
+.d-none {
+  display: none;
+  visibility: hidden;
+}
+
+.loader {
+  width: 120px;
+  height: 20px;
+  mask: linear-gradient(90deg, #000 70%, #0000 0) left/20% 100%;
+  background: linear-gradient(#000 0 0) left -25% top 0 /20% 100% no-repeat #ddd;
+  animation: l7 1s infinite steps(6);
+}
+@keyframes l7 {
+  100% {
+    background-position: right -25% top 0;
+  }
+}
+
+button {
+    padding: 10px;
+}
+
+main {
+    margin: 10px;
+    display: grid;
+    grid-template-columns: auto auto;
+}
+
+.form-group {
+    margin: 10px;
+    grid-row: auto;
+}

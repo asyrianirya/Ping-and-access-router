@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Koneksi Kabel Amitabasa WIFI</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <main>
+        <div class="form-group">
+            <label for="opsi_koneksi">Pilih Koneksi Kabel:</label>
+            <select name="opsi_koneksi" id="opsi_koneksi">
+                <option value="Yumna">Yumna(Biru)</option>
+                <option value="Abiel">Abiel(Abu-Abu)</option>
+                <option value="Mikrotik">Mikrotik(Solasiban)</option>
+                <option value="Custom">HUB MIKROKUSTAR (AWAS STRUM)</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <button name="refreshButton" id="refreshButton" >Refresh</button>
+        </div>
+    </main>
+
+    <div id="list_container">
+        <div class="loader d-none"></div> 
+        <ul id="list_koneksi"></ul>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', ()=>{
+            const YumnaIPList = [
+            '20.20.10.1', '20.20.10.41', 
+            '20.20.10.44', '20.20.10.46', 
+            '20.20.10.20', ];
+            const YumnaNameList = [
+            'Tenda Cina', 'Armita_AP', 
+            'MTB_Dara', 'Yumna_Client', 
+            'Yumna_Huawei', ];
+
+            const AbielIPList = [
+            '192.168.1.1', '192.168.1.15', '192.168.1.11', 
+            '192.168.1.16', '192.168.1.10', '192.168.1.17', 
+            '192.168.1.1/IP', 
+            ];
+            const AbielNameList = [
+            'Common/Tenda', 'H.Malik', 'Mang Bini', 
+            'Rival', 'Abiel', 'Kamil', 
+            'Tenda', 
+            ];
+
+            const MikrotikIPList = [
+            '192.168.2.3', '192.168.2.5', 
+            '10.10.10.1', '10.10.10.5', '10.10.10.6', 
+            '10.10.10.7', '10.10.10.13', '10.10.10.15', 
+            '10.10.10.19', '10.10.10.20', '10.10.10.21', 
+            '10.10.10.24', '10.10.10.29', '10.10.10.95', 
+            ];
+            const MikrotikNameList = [
+            'Mikrobasa', 'MikroKustar', 
+            'Mikrobasa', 'Venusa', 'Sakhia', 
+            'Cepnok', 'Umayah', 'Venty', 
+            'Rindi', 'Jetstar', 'Muis', 
+            'Ferdi', 'Raihandy', 'ferdi_client', 
+            ];
+
+            const CustomIPList = [
+            '20.20.10.1', '20.20.10.3', '20.20.10.4', 
+            '20.20.10.5', '20.20.10.11',  '20.20.10.18', 
+            ];
+            const CustomNameList = [
+            'Mikrokustar', 'amitabasa.net', 'Getrakmoyan',
+            'tanda_client', 'baim_client', 'Tanda Meang',
+            ];
+
+            const opsi = document.getElementById('opsi_koneksi');
+            const list = document.getElementById('list_koneksi');
+            const refreshButton = document.getElementById('refreshButton');
+            const loader = document.querySelector('.loader');
+
+            function pingServer(url, element ,timeout = 1000) {
+                
+                loader.classList.remove('d-none');
+
+                const startTime = new Date().getTime();
+
+                const fetchPromise = fetch(url, { mode: 'no-cors' })
+                    .then(response => {
+                        const endTime = new Date().getTime();
+                        const duration = endTime - startTime;
+                        console.log(`Ping to ${url}: ${duration}ms`);
+                        element.classList.add('ping-success')
+                        loader.classList.add('d-none');
+                    })
+
+                const timeoutPromise = new Promise((_, reject) => 
+                    setTimeout(() => reject(new Error('Timeout')), timeout)
+                );
+
+                return Promise.race([fetchPromise, timeoutPromise])
+                    .catch(error => {
+                        console.warn(`Ping to ${url} timed out after ${timeout}ms`);
+                        element.classList.remove('ping-success');
+                        loader.classList.add('d-none');
+                    });
+            }
+
+            refreshButton.addEventListener('click', (e)=>{
+                e.preventDefault();
+                list.innerHTML='';
+                loader.classList.remove('d-none');
+                setTimeout(()=>{
+                    optionHandler(opsi.value);
+                    loader.classList.add('d-none');
+                }, 1000)
+            })
+
+            function createList(IPList, nameList){
+                list.innerHTML = '';
+
+                for (let i = 0; i < IPList.length; i++) {
+                    const li = document.createElement('li');
+                    const a = document.createElement('a');
+                    const href = `http://${IPList[i]}`;
+                    li.innerHTML = `IP: ${IPList[i]} <br>NAME: ${nameList[i]}`;
+                    a.appendChild(li);
+                    
+                    a.href = href;
+                    a.target = '_blank';
+                    list.appendChild(a);
+                    pingServer(href,a);
+                }
+            }
+
+            createList(YumnaIPList,YumnaNameList);
+            opsi.addEventListener('change', (e)=>{
+                let opsiValue = e.target.value;
+                optionHandler (opsiValue);
+            })
+
+            function optionHandler (opsiValue){
+                if(opsiValue == 'Yumna'){
+                    createList(YumnaIPList,YumnaNameList);
+                } else if (opsiValue == 'Abiel') {
+                    createList(AbielIPList,AbielNameList);
+                } else if (opsiValue == 'Mikrotik') {
+                    createList(MikrotikIPList,MikrotikNameList);
+                } else if (opsiValue == 'Custom') {
+                    createList(CustomIPList,CustomNameList);
+                }
+            }
+        })
+    </script>
+</body>
+</html>
