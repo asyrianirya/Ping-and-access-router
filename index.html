@@ -10,12 +10,7 @@
     <main>
         <div class="form-group">
             <label for="opsi_koneksi">Pilih Koneksi Kabel:</label>
-            <select name="opsi_koneksi" id="opsi_koneksi">
-                <option value="Yumna">Yumna(Biru)</option>
-                <option value="Abiel">Abiel(Abu-Abu)</option>
-                <option value="Mikrotik">Mikrotik(Solasiban)</option>
-                <option value="Custom">HUB MIKROKUSTAR (AWAS STRUM)</option>
-            </select>
+            <select name="opsi_koneksi" id="opsi_koneksi"></select>
         </div>
         <div class="form-group">
             <button name="refreshButton" id="refreshButton" >Refresh</button>
@@ -29,6 +24,8 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', ()=>{
+            const select = document.getElementById('opsi_koneksi');
+
             const YumnaList = {
                 'Tenda Cina': '20.20.10.1',
                 'Armita_AP': '20.20.10.41',
@@ -72,13 +69,25 @@
                 'Tanda Meang': '20.20.10.18',
             };
 
-            function sortObjectByKey(obj) {
-                return Object.keys(obj)
-                    .sort()
-                    .reduce((sortedObj, key) => {
-                        sortedObj[key] = obj[key];
-                        return sortedObj;
-                    }, {});
+            const ipData = [YumnaList, AbielList, MikrotikList, CustomList]
+            const nameData = ['Yumna(Biru)', 'Abiel(Abu-Abu)', 'Mikrotik(Solasiban)', 'HUB MIKROKUSTAR (AWAS STRUM)']
+            for (let i = 0; i < ipData.length; i++) {
+                const option = document.createElement('option')
+                option.value = i;
+                option.innerText = nameData[i];
+                select.appendChild(option)
+            }
+
+            function optionHandler (opsiValue){
+                if(opsiValue == 0){
+                    createList(ipDataSorted[0]);
+                } else if (opsiValue == 1) {
+                    createList(ipDataSorted[1]);
+                } else if (opsiValue == 2) {
+                    createList(ipDataSorted[2]);
+                } else if (opsiValue == 3) {
+                    createList(ipDataSorted[3]);
+                }
             }
 
             function sortObjectByValue(obj) {
@@ -162,23 +171,13 @@
                 optionHandler (opsiValue);
             })
 
-            const ipData = [YumnaList, AbielList, MikrotikList, CustomList]
+            
             ipDataSorted = [
                 sortObjectByValue(YumnaList), sortObjectByValue(AbielList), 
                 sortObjectByValue(MikrotikList), sortObjectByValue(CustomList)
             ]
 
-            function optionHandler (opsiValue){
-                if(opsiValue == 'Yumna'){
-                    createList(ipDataSorted[0]);
-                } else if (opsiValue == 'Abiel') {
-                    createList(ipDataSorted[1]);
-                } else if (opsiValue == 'Mikrotik') {
-                    createList(ipDataSorted[2]);
-                } else if (opsiValue == 'Custom') {
-                    createList(ipDataSorted[3]);
-                }
-            }
+            
         })
     </script>
 </body>
