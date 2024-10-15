@@ -1,5 +1,6 @@
 #list_koneksi.fullwidth {
     display: grid;
+    grid-template-columns: auto;
 }
 
 #list_koneksi.fullwidth > ul{
