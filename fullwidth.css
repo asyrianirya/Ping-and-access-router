@@ -1,0 +1,7 @@
+#list_koneksi.fullwidth {
+    display: grid;
+}
+
+#list_koneksi.fullwidth > ul{
+    background-color: #7fffd4;
+}

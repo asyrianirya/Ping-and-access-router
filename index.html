@@ -4,27 +4,49 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Koneksi Kabel Amitabasa WIFI</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="./style.css">
+    <link rel="stylesheet" href="./fullwidth.css">
+    <link rel="stylesheet" href="./card.css">
 </head>
 <body>
-    <main>
-        <div class="form-group">
-            <label for="opsi_koneksi">Pilih Koneksi Kabel:</label>
-            <select name="opsi_koneksi" id="opsi_koneksi"></select>
-        </div>
-        <div class="form-group">
-            <button name="refreshButton" id="refreshButton" >Refresh</button>
-        </div>
-    </main>
+    <noscript>
+        Please enable javascript to continue
+    </noscript>
+    <fieldset>
+        <legend>Menu</legend>
+        <main>
+            <div class="form-group">
+                <label for="opsi_koneksi">Pilih Koneksi Kabel:</label>
+                <select name="opsi_koneksi" id="opsi_koneksi"></select>
+            </div>
+            <div class="form-group">
+                <button name="refreshButton" id="refreshButton" >Refresh</button>
+            </div>
+            <div class="form-group">
+                <label>Change Style</label>
+                <div style="display:flex;flex-direction: column;">
+                    <div>
+                        <input type="radio" class="style" name="style" id="style1" value="fullwidth" checked>
+                        <label for="style1">Full-Width</label>
+                    </div>
+                    <div>
+                        <input type="radio" class="style" name="style" id="style2" value="card">
+                        <label for="style2">Card</label>
+                    </div>
+                    
+                </div>
+            </div>
+        </main>
+    </fieldset>
 
     <div id="list_container">
         <div class="loader d-none"></div> 
-        <ul id="list_koneksi"></ul>
+        <ul id="list_koneksi" class="fullwidth"></ul>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', ()=>{
-            
+
             //CONFIGURE AS YOU LIKE
 
             const baseUrl = 'http://';
@@ -89,6 +111,19 @@
             const list = document.getElementById('list_koneksi');
             const refreshButton = document.getElementById('refreshButton');
             const loader = document.querySelector('.loader');
+
+            const radioStyle = document.querySelectorAll('.style');
+
+            radioStyle.forEach(style => {
+                style.addEventListener('click', (e)=>{
+                    let value = e.target.value;
+                    console.log('value :>> ', value);
+                    if(value){
+                        list.classList = '';
+                        list.classList.add(value);
+                    }
+                })
+            });
             
             for (let i = 0; i < ipData.length; i++) {
                 const option = document.createElement('option')
