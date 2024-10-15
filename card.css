@@ -1,3 +1,4 @@
 #list_koneksi.card {
     display: flex;
+    flex-wrap: wrap;
 }
